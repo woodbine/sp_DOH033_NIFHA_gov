@@ -103,7 +103,10 @@ soup = BeautifulSoup(html, "lxml")
 title_divs = soup.find('div', 'row').find_all('div', 'media-body')
 for title_div in title_divs:
     blocks = title_div.find('a')
-    url = 'https://www.nice.org.uk'+blocks['href']
+    if 'http' not in blocks['href']:
+        url = 'https://www.nice.org.uk'+blocks['href']
+    else:
+        url = blocks['href']
     csvMth = blocks.text.strip().split(':')[-1].strip().split(' ')[0][:3]
     csvYr = blocks.text.strip().split(':')[-1].strip().split(' ')[-1].strip()
     csvMth = convert_mth_strings(csvMth.upper())
